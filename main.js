@@ -21,7 +21,7 @@ var cmd = inputPara[2];
  if(cmd == '-rpzhstr') {
     let dir = inputPara[3];
     enumerate_directory(dir, true, (err, file) => {
-        console.log(file);
+        findChineseString(file);
     });
 }
 else {
@@ -53,14 +53,25 @@ function enumerate_directory (dir, recursive, handle) {
     });
   };
 
-  
+
+  var chinese_pattern = /@"[^"]*[\u4E00-\u9FA5]+[^"\n]*?"/;
+  var found_string;
   function findChineseString (path) {
 
         if(path.endsWith('.m') || path.endsWith('.h')) {
 
             fs.readFile(path, function(err,data){
                 if(!err){
+                    
                     let text = data.toString();//将二进制的数据转换为字符串
+                    let strs = chinese_pattern.exec(text);
+                    if(strs && strs.length > 0) {
+                        console.log('chinese characters in ' + path);
+                        strs.forEach((v, i) => {
+                            console.log(v);
+                        });
+                    }
+         
                 }    
         });
     }
