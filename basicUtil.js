@@ -60,4 +60,9 @@ String.prototype.replaceAll= function (a,b) {
   return retStr;
 }
 
+String.prototype.insertStr =  function(index, str) {   
+  let tmpStr = this.toString();
+  return tmpStr.slice(0, index) + str + tmpStr.slice(index);
+}
+
 exports.objectFromJsonFile = objectFromJsonFile;
