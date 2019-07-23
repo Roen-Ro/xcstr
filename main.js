@@ -13,6 +13,7 @@ var inputPara = process.argv;//输入的参数 数组，注意参数是从第3�
 var fs = require('fs');
 var basUtil = require('./basicUtil.js');
 var path = require('path');
+var baidutrans = require('./baidutrans.js');
 
 //提取出来的string
 var all_founds = [];
@@ -21,7 +22,7 @@ console.log('inputed parameters are: '+ inputPara);
 
 var cmd = inputPara[2];
 
- if(cmd == '-rpzhstr') {
+ if(cmd == '-ze') {
     let dir = inputPara[3];
     enumerate_directory(dir, true, (err, file) => {
         findChineseString(file);
@@ -36,7 +37,7 @@ var cmd = inputPara[2];
           localized_str += item.substring(1);
          });
          
-         let desPath = dir + '/localizedstring_xcstr.strings';
+         let desPath = dir + '/localizedstring_zh_xcstr.strings';
          fs.writeFile(desPath,localized_str, (err) => {
           if(err)
             console.error(err.message);
@@ -52,9 +53,13 @@ var cmd = inputPara[2];
     
     });
 }
+else if(cmd == '-ts') {
+  baidutrans.dotest();
+}
 else {
     console.log('available commands: ');
-    console.log('-rpzhstr 查找.m .h  文件中的中文，并替换成NSLocalizedString()，所有中文字符也会输出到zh_localize.string');
+    console.log('-ze directory 查找directory .m .h .mm  文件中的中文，并替换成NSLocalizedString()，所有中文字符也会输出到localizedstring_zh_xcstr.strings');
+    console.log('-ts stringfile 调用翻译api，将strings文件的内容翻译成多语言, 每种翻译生成在不同的文件中 ');
 }
 
 //dir 目录路径 recursive：bool是否递归遍历子目录 handle(error,file):每遍历到一个文件就会回调 done(error):遍历完所有就会回调

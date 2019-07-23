@@ -11,7 +11,7 @@
             "request": "launch",
             "name": "xcode strings",
             "program": "${workspaceFolder}/main.js",
-            "args": ["-rpzhstr", "/Users/jiangwenbin/Desktop/EnTT_test/EnTT", ]
+            "args": ["-ts", "/Users/jiangwenbin/Desktop/EnTT_test/EnTT", ]
         }
     ]
 }
