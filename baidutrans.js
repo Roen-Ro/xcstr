@@ -36,7 +36,7 @@ function trans(query,from, to) {
     sign: sign
   };
 
-  new Promise((resolve, reject) => { 
+  return new Promise((resolve, reject) => { 
 
     request({
       url: 'https://fanyi-api.baidu.com/api/trans/vip/translate',
@@ -48,11 +48,7 @@ function trans(query,from, to) {
         reject(error); //因为要await调用，所以都要resolve，不要reject
       else {
         resolve(body);
-        console.log(body);
       }
-        
-
-
     });
 
   });
@@ -62,14 +58,14 @@ function trans(query,from, to) {
 
 async function dotest(filepath) {
 
+  console.log('xxxx');
   let strs = await readstringfromfile(filepath);
   console.log(strs.length);
 
   for (let s of strs) {
     if(s.charAt(0) == '\"') {
-      //awaite 不起作用
       let r = await trans(s,'zh','en');
-      console.log(r);
+      console.log(s +' res: ' + JSON.stringify(r));
     }
     
   }
