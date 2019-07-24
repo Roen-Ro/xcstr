@@ -55,7 +55,7 @@ var cmd = inputPara[2];
 }
 else if(cmd == '-ts') {
   let filepath = inputPara[3];
-  baidutrans.dotest(filepath);
+  baidutrans.dotranswork(filepath);
 }
 else {
     console.log('available commands: ');

@@ -54,9 +54,8 @@ function trans(query,from, to) {
   });
 }
 
-async function dotest(filepath) {
+async function dotranswork(filepath) {
 
-  console.log('xxxx');
   let strs = await readstringfromfile(filepath);
   console.log(strs.length);
 
@@ -64,7 +63,7 @@ async function dotest(filepath) {
     let en_trans = await trans_strs(strs, 'zh', 'en');
     let enfile =  path.resolve(filepath, '../xcstr-zh-en.strings');
     write_strings(en_trans,enfile);
-
+/*
     //法语
     let fre_trans = await trans_strs(strs, 'zh', 'fra');
     let frefile =  path.resolve(filepath, '../xcstr-zh-fre.strings');
@@ -89,7 +88,7 @@ async function dotest(filepath) {
     let jp_trans = await trans_strs(strs, 'zh', 'jp');
     let jpfile =  path.resolve(filepath, '../xcstr-zh-jp.strings');
     write_strings(jp_trans,jpfile);
-
+*/
     //韩语
     let ko_trans = await trans_strs(strs, 'zh', 'kor');
     let kofile =  path.resolve(filepath, '../xcstr-zh-ko.strings');
@@ -99,7 +98,7 @@ async function dotest(filepath) {
     let ar_trans = await trans_strs(strs, 'zh', 'ara');
     let arfile =  path.resolve(filepath, '../xcstr-zh-ar.strings');
     write_strings(ar_trans,arfile);
-
+/*
     //意大利语
     let it_trans = await trans_strs(strs, 'zh', 'it');
     let itfile =  path.resolve(filepath, '../xcstr-zh-it.strings');
@@ -114,17 +113,17 @@ async function dotest(filepath) {
     let vi_trans = await trans_strs(strs, 'zh', 'vie');
     let vifile =  path.resolve(filepath, '../xcstr-zh-vi.strings');
     write_strings(vi_trans,vifile); 
-
+*/
     //泰语
     let th_trans = await trans_strs(strs, 'zh', 'th');
     let thfile =  path.resolve(filepath, '../xcstr-zh-th.strings');
     write_strings(th_trans,thfile); 
-
+/*
     //荷兰语
     let nl_trans = await trans_strs(strs, 'zh', 'nl');
     let nlfile =  path.resolve(filepath, '../xcstr-zh-nl.strings');
     write_strings(nl_trans,nlfile); 
-    
+  */
 
 }
 
@@ -143,9 +142,10 @@ async function trans_strs(strings, from, to) {
         let trans = r.trans_result[0].dst;
         let s1 = s + ' = \"' + trans + '\";';
         newstrs[i] = s1;
+        console.log(s1);
       }
 
-        console.log(s.substr(1, s.length-2) +' res: ' + JSON.stringify(r));
+        
     }
 
   }
@@ -164,4 +164,4 @@ function write_strings(strings, _path) {
   })
 }
 
-module.exports.dotest = dotest;
+module.exports.dotranswork = dotranswork;
