@@ -6,14 +6,14 @@ md5 = require('js-md5');
 
 //http://api.fanyi.baidu.com/api/trans/product/apidoc#joinFile 百度翻译api
 
-function readstringfromfile(filepath) {
+function readstringlinesfromfile(filepath) {
   return new Promise( (resolve, reject) => {
     fs.readFile(filepath, function(err,data){
       if(err)
           reject(err);
       else {
-        let jsonStr = data.toString();//将二进制的数据转换为字符串
-        var str_arr = jsonStr.split('\n');//将字符串转换为json对象
+        let filestr = data.toString();//将二进制的数据转换为字符串
+        var str_arr = filestr.split('\n');//将字符串转换为json对象
         resolve(str_arr);
       }
     });
@@ -57,7 +57,7 @@ function trans(query,from, to) {
 async function dotranswork(filepath) {
 
   //读取strings文件，按行分割成数组
-  let strs = await readstringfromfile(filepath);
+  let strs = await readstringlinesfromfile(filepath);
   console.log('总共读取到'+strs.length+'行字符串');
 
     //英语
@@ -162,3 +162,4 @@ function write_strings(strings, _path) {
 }
 
 module.exports.dotranswork = dotranswork;
+module.exports.readstringlinesfromfile = readstringlinesfromfile;

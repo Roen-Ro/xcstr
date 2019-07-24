@@ -24,7 +24,7 @@ var cmd = inputPara[2];
 
  if(cmd == '-ze') {
     let dir = inputPara[3];
-    enumerate_directory(dir, true, (err, file) => {
+    basUtil.enumerate_directory(dir, true, (err, file) => {
         findChineseString(file);
     }, (err) => {
       if(!err) {
@@ -63,34 +63,7 @@ else {
     console.log('-ts stringfile 调用翻译api，将strings文件的内容翻译成多语言, 每种翻译生成在不同的文件中 ');
 }
 
-//dir 目录路径 recursive：bool是否递归遍历子目录 handle(error,file):每遍历到一个文件就会回调 done(error):遍历完所有就会回调
-function enumerate_directory (dir, recursive, handle, done) {
 
-    fs.readdir(dir, function(err, list) {
-      if (err) return done(err);
-      var i = 0;
-      (function next() {
-        var file = list[i++];
-        if (!file) return done(null);
-        file = dir + '/' + file;
-        fs.stat(file, function(err, stat) {
-          if (stat && stat.isDirectory()) {
-              if(recursive) {
-                enumerate_directory(file, recursive, handle, (err) => {
-                  next();
-                } );
-              }
-              else {
-                next();
-              }
-          } else {
-            handle(null,file);
-            next();
-          }
-        });
-      })();
-    });
-  };
 
   var nslocalizedString = 'NSLocalizedString(';
   var loalizedstringMacro = 'LSTRING(';
@@ -175,5 +148,19 @@ function stringBeforeIndexMatch(content,index,match) {
     return true;
   else
     return false;
+
+}
+
+
+//----- 一次性使用----
+async function replacechinesewithengllish (stringfile, prjDir) {
+
+ let textes = await baidutrans.readstringlinesfromfile(stringfile)
+
+ for(let i in textes) {
+  let l = textes[i];
+  
+ }
+ 
 
 }

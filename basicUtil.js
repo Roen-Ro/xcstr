@@ -6,6 +6,7 @@
 //https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String JS字符处理
 
 var fs = require('fs');
+var path = require('path')
 
 function objectFromJsonFile(jsionFilePath) {
 
@@ -22,6 +23,35 @@ function objectFromJsonFile(jsionFilePath) {
     });
   });
 }
+
+//dir 目录路径 recursive：bool是否递归遍历子目录 handle(error,file):每遍历到一个文件就会回调 done(error):遍历完所有就会回调
+function enumerate_directory (dir, recursive, handle, done) {
+
+  fs.readdir(dir, function(err, list) {
+    if (err) return done(err);
+    var i = 0;
+    (function next() {
+      var file = list[i++];
+      if (!file) return done(null);
+      file = dir + '/' + file;
+      fs.stat(file, function(err, stat) {
+        if (stat && stat.isDirectory()) {
+            if(recursive) {
+              enumerate_directory(file, recursive, handle, (err) => {
+                next();
+              } );
+            }
+            else {
+              next();
+            }
+        } else {
+          handle(null,file);
+          next();
+        }
+      });
+    })();
+  });
+};
 
 //自动对参数做了urlencode
 function urlform(obj) {
@@ -78,4 +108,5 @@ String.prototype.insertStr =  function(index, str) {
 }
 
 exports.objectFromJsonFile = objectFromJsonFile;
+exports.enumerate_directory = enumerate_directory;
 exports.urlform = urlform;
