@@ -23,6 +23,18 @@ function objectFromJsonFile(jsionFilePath) {
   });
 }
 
+//自动对参数做了urlencode
+function urlform(obj) {
+  let s = '';
+  Object.keys(obj).forEach((key) => {
+    s += ('&' + key + '=' + encodeURI(obj[key]));
+  });
+  if(s.length > 0)
+    return s.substring(1);
+  else
+    return s;
+}
+
 String.prototype.stringtrimmedwithtags = function (beginTag,endTag) {
 
   let sIdx = -1;
@@ -66,3 +78,4 @@ String.prototype.insertStr =  function(index, str) {
 }
 
 exports.objectFromJsonFile = objectFromJsonFile;
+exports.urlform = urlform;

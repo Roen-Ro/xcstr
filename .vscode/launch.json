@@ -11,7 +11,7 @@
             "request": "launch",
             "name": "xcode strings",
             "program": "${workspaceFolder}/main.js",
-            "args": ["-ts", "/Users/jiangwenbin/Desktop/localizedstring_zh_xcstr.strings", ]
+            "args": ["-ts", "/Users/jiangwenbin/Desktop/dosth-/localizedstring_zh_xcstr.strings", ]
         }
     ]
 }
