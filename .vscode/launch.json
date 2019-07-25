@@ -11,7 +11,7 @@
             "request": "launch",
             "name": "xcode strings",
             "program": "${workspaceFolder}/main.js",
-            "args": ["-ze", "/Users/lolaage/Desktop/Debug_data/EnTT", ]
+            "args": ["-ts", "/Users/jiangwenbin/Desktop/dosth/localizedstring_zh_xcstr01.strings", ]
         }
     ]
 }

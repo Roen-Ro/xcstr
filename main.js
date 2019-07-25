@@ -151,16 +151,3 @@ function stringBeforeIndexMatch(content,index,match) {
 
 }
 
-
-//----- 一次性使用----
-async function replacechinesewithengllish (stringfile, prjDir) {
-
- let textes = await baidutrans.readstringlinesfromfile(stringfile)
-
- for(let i in textes) {
-  let l = textes[i];
-  
- }
- 
-
-}
