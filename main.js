@@ -61,6 +61,8 @@ else {
     console.log('available commands: ');
     console.log('-ze directory 查找directory .m .h .mm  文件中的中文，并替换成NSLocalizedString()，所有中文字符也会输出到localizedstring_zh_xcstr.strings');
     console.log('-ts stringfile 调用翻译api，将strings文件的内容翻译成多语言, 每种翻译生成在不同的文件中 ');
+
+  //  handle_zh_en_strings_for_project('/Users/jiangwenbin/Desktop/doc_test/Localizable_zh_en.strings','/Users/nTT');
 }
 
 
@@ -128,11 +130,6 @@ else {
 
       if(rewritefile) {
         retObj.modified = text;
-      //  // var fname = path.basename(_path,'.m');
-      //   var destPath = _path;//path.resolve(_path,'../'+fname+'_revert.m');
-      //   fs.writeFile(destPath,text, (error) => {
-
-      //   });
       }
 
       return retObj;
@@ -150,4 +147,63 @@ function stringBeforeIndexMatch(content,index,match) {
     return false;
 
 }
+
+//将英文翻译提取出来，目的是其他语言的翻译都以英文为准，这样子好翻译一点
+async function handle_zh_en_strings_for_project (zh_en_stringfile, dir) {
+
+  let lines = await baidutrans.read_lines(zh_en_stringfile);
+  let zh_lines  = [];
+  let en_lines = [];
+  let en_zh_lines = [];
+  for(let i in lines)  {
+
+    l = lines[i];
+    if(l.charAt(0) == '\"') {
+      let lans = l.split(" = ");
+      if(lans.length == 2) {
+        let zh_s = lans[0];
+        let en_s = lans[1];
+        en_s = en_s.substr(0, en_s.length-1); //去掉最后的分号
+
+        zh_lines.push(zh_s);
+        en_lines.push(en_s);
+        en_zh_lines.push( en_s + ' = ' + zh_s + ';');
+
+      }
+    }
+    else {
+      zh_lines.push(l);
+      en_lines.push(l);
+      en_zh_lines.push(l);
+    }
+  }
+
+  baidutrans.write_lines(en_zh_lines,path.resolve(zh_en_stringfile, '../xcstr-en-zh.strings'));
+  baidutrans.write_lines(en_lines,path.resolve(zh_en_stringfile, '../xcstr-en.strings'));
+  baidutrans.write_lines(zh_lines,path.resolve(zh_en_stringfile, '../xcstr-zh.strings'));
+
+
+  console.log('============== START REPLACE CHINESE WITH ENGLISH ===================');
+
+  let count = zh_lines.length;
+  basUtil.enumerate_directory(dir, true, (err,file) => {
+
+    if(file.endsWith('.m') || file.endsWith('.h') || file.endsWith('.mm')) {
+      let txt = fs.readFileSync(file).toString();
+      let txt_bak = txt;
+      for(let i=0; i < count; i++) {
+        txt = txt.replaceAll(zh_lines[i],en_lines[i]);
+      }
+      if(txt != txt_bak) {
+        fs.writeFileSync(file,txt);
+        console.log('rewrite ' + path.basename(file));
+      }
+    }
+
+  }, err => {
+    console.log('------------ FINISHED ---------------------');
+  });
+
+}
+
 

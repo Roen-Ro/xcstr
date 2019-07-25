@@ -6,7 +6,7 @@ md5 = require('js-md5');
 
 //http://api.fanyi.baidu.com/api/trans/product/apidoc#joinFile 百度翻译api
 
-function readstringlinesfromfile(filepath) {
+function read_lines(filepath) {
   return new Promise( (resolve, reject) => {
     fs.readFile(filepath, function(err,data){
       if(err)
@@ -57,74 +57,74 @@ function trans(query,from, to) {
 async function dotranswork(filepath) {
 
   //读取strings文件，按行分割成数组
-  let strs = await readstringlinesfromfile(filepath);
+  let strs = await read_lines(filepath);
   console.log('总共读取到'+strs.length+'行字符串');
 
-    //英语
-    let en_trans = await trans_strs(strs, 'zh', 'en');
-    let enfile =  path.resolve(filepath, '../xcstr-zh-en.strings');
-    write_strings(en_trans,enfile);
-/*
+    //中文
+    // let en_trans = await trans_strs(strs, 'en', 'zh');
+    // let enfile =  path.resolve(filepath, '../xcstr-en-zh.strings');
+    // write_lines(en_trans,enfile);
+
     //法语
-    let fre_trans = await trans_strs(strs, 'zh', 'fra');
-    let frefile =  path.resolve(filepath, '../xcstr-zh-fre.strings');
-    write_strings(fre_trans,frefile);
+    let fre_trans = await trans_strs(strs, 'en', 'fra');
+    let frefile =  path.resolve(filepath, '../xcstr-en-fre.strings');
+    write_lines(fre_trans,frefile);
 
     //西语
-    let es_trans = await trans_strs(strs, 'zh', 'spa');
-    let esfile =  path.resolve(filepath, '../xcstr-zh-es.strings');
-    write_strings(es_trans,esfile);
+    let es_trans = await trans_strs(strs, 'en', 'spa');
+    let esfile =  path.resolve(filepath, '../xcstr-en-es.strings');
+    write_lines(es_trans,esfile);
 
     //德语
-    let de_trans = await trans_strs(strs, 'zh', 'de');
-    let defile =  path.resolve(filepath, '../xcstr-zh-de.strings');
-    write_strings(de_trans,defile);
+    let de_trans = await trans_strs(strs, 'en', 'de');
+    let defile =  path.resolve(filepath, '../xcstr-en-de.strings');
+    write_lines(de_trans,defile);
 
     //葡语
-    let pt_trans = await trans_strs(strs, 'zh', 'pt');
-    let ptfile =  path.resolve(filepath, '../xcstr-zh-pt.strings');
-    write_strings(pt_trans,ptfile);
+    let pt_trans = await trans_strs(strs, 'en', 'pt');
+    let ptfile =  path.resolve(filepath, '../xcstr-en-pt.strings');
+    write_lines(pt_trans,ptfile);
 
     //日语
-    let jp_trans = await trans_strs(strs, 'zh', 'jp');
-    let jpfile =  path.resolve(filepath, '../xcstr-zh-jp.strings');
-    write_strings(jp_trans,jpfile);
+    let jp_trans = await trans_strs(strs, 'en', 'jp');
+    let jpfile =  path.resolve(filepath, '../xcstr-en-jp.strings');
+    write_lines(jp_trans,jpfile);
 
     //韩语
-    let ko_trans = await trans_strs(strs, 'zh', 'kor');
-    let kofile =  path.resolve(filepath, '../xcstr-zh-ko.strings');
-    write_strings(ko_trans,kofile);
+    let ko_trans = await trans_strs(strs, 'en', 'kor');
+    let kofile =  path.resolve(filepath, '../xcstr-en-ko.strings');
+    write_lines(ko_trans,kofile);
 
     //阿拉伯语
-    let ar_trans = await trans_strs(strs, 'zh', 'ara');
-    let arfile =  path.resolve(filepath, '../xcstr-zh-ar.strings');
-    write_strings(ar_trans,arfile);
+    let ar_trans = await trans_strs(strs, 'en', 'ara');
+    let arfile =  path.resolve(filepath, '../xcstr-en-ar.strings');
+    write_lines(ar_trans,arfile);
 
     //意大利语
-    let it_trans = await trans_strs(strs, 'zh', 'it');
-    let itfile =  path.resolve(filepath, '../xcstr-zh-it.strings');
-    write_strings(it_trans,itfile); 
+    let it_trans = await trans_strs(strs, 'en', 'it');
+    let itfile =  path.resolve(filepath, '../xcstr-en-it.strings');
+    write_lines(it_trans,itfile); 
 
     //俄语
-    let ru_trans = await trans_strs(strs, 'zh', 'ru');
-    let rufile =  path.resolve(filepath, '../xcstr-zh-ru.strings');
-    write_strings(ru_trans,rufile); 
+    let ru_trans = await trans_strs(strs, 'en', 'ru');
+    let rufile =  path.resolve(filepath, '../xcstr-en-ru.strings');
+    write_lines(ru_trans,rufile); 
 
     //越南语
-    let vi_trans = await trans_strs(strs, 'zh', 'vie');
-    let vifile =  path.resolve(filepath, '../xcstr-zh-vi.strings');
-    write_strings(vi_trans,vifile); 
+    let vi_trans = await trans_strs(strs, 'en', 'vie');
+    let vifile =  path.resolve(filepath, '../xcstr-en-vi.strings');
+    write_lines(vi_trans,vifile); 
 
     //泰语
-    let th_trans = await trans_strs(strs, 'zh', 'th');
-    let thfile =  path.resolve(filepath, '../xcstr-zh-th.strings');
-    write_strings(th_trans,thfile); 
+    let th_trans = await trans_strs(strs, 'en', 'th');
+    let thfile =  path.resolve(filepath, '../xcstr-en-th.strings');
+    write_lines(th_trans,thfile); 
 
     //荷兰语
-    let nl_trans = await trans_strs(strs, 'zh', 'nl');
-    let nlfile =  path.resolve(filepath, '../xcstr-zh-nl.strings');
-    write_strings(nl_trans,nlfile); 
-  */
+    let nl_trans = await trans_strs(strs, 'en', 'nl');
+    let nlfile =  path.resolve(filepath, '../xcstr-en-nl.strings');
+    write_lines(nl_trans,nlfile); 
+  
 
 }
 
@@ -133,9 +133,10 @@ async function trans_strs(strings, from, to) {
   let newstrs = [];
   for(let i=0; i<strings.length; i++) {
     let s = strings[i];
-    let c = s.substr(1, s.length-2); //双引号处理
-
     if(s.charAt(0) == '\"') {
+      let c = s.split("=")[0]; //对 "Hello" = "你好"; 这样数据做提取，提取 "="前的字符
+      c = c.trim();
+      c = c.substr(1,c.length-2); //去掉双引号
 
       let s0 = replace_formatted_string(c)
       let r = await trans(s0,from, to);
@@ -146,7 +147,7 @@ async function trans_strs(strings, from, to) {
           if(s0 != c)
             trans = resume_formatted_string(trans);
 
-          let s1 = s + ' = \"' + trans + '\";';
+          let s1 = '\"' + c + '\" = \"' + trans + '\";';
           newstrs[i] = s1;
           console.log(s1);
       }
@@ -160,7 +161,7 @@ async function trans_strs(strings, from, to) {
 }
 
 
-function write_strings(strings, _path) {
+function write_lines(strings, _path) {
   let s =  '';
   for(let i in strings) {
     s += (strings[i]+'\n');
@@ -181,14 +182,14 @@ var format_map = [
   "%.1f:182.6",
   "%.2f:1802.06",
   "%.3f:18002.006",
-  "%@:MOXEN",
-  "%s:MOHEX",
-  "\\\":T-H-O-WZU ",
-  "\\\':TH-O-W-ZU ",
+  "%@:M-O-X-E",
+  "%s:M-O-H",
+  "\\\": T-H-O-U ",
+  "\\\': H-O-W-Z ",
   "\\n: S-P-R-T ",
   "\\r: S-P-T-R ",
   "\\t: S-T-R-R ",
-  "\\:THEU-WZU "
+  "\\: T-H-E-U-W-Z-U "
 ];
 
 function replace_formatted_string(str) {
@@ -204,11 +205,13 @@ function resume_formatted_string (str) {
   let s = str;
   for(let i in format_map) {
     let sps = format_map[i].split(':');
-  //  console.log('--' + str);
-    s = s.replaceAll(sps[1],sps[0]);
+ //   console.log('--' + str);
+    s = s.replaceAll(sps[1].trim(),sps[0]);
+    s = s.replaceAll(sps[1].trim().toLowerCase(),sps[0]); //有的时候翻译后会被转换成小写
   }
   return s;
 }
 
 module.exports.dotranswork = dotranswork; 
-module.exports.readstringlinesfromfile = readstringlinesfromfile;
+module.exports.read_lines = read_lines;
+module.exports.write_lines = write_lines;
