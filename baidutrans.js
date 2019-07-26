@@ -41,11 +41,12 @@ function trans(query,from, to) {
 
     let url = 'https://fanyi-api.baidu.com/api/trans/vip/translate' +'?' + basUtil.urlform(reqparas);
 
-    console.log(url);
+  //  console.log(url);
+    console.log('Query: ' + query);
     //官网上说的post请求无效，一定要get请求才行
     request( url, (error, response, body) => {
       if(error)
-        reject(error); //因为要await调用，所以都要resolve，不要reject
+        resolve(null); //因为要await调用，所以都要resolve，不要reject
       else {
         resolve(body);
       }
@@ -60,72 +61,29 @@ async function dotranswork(filepath) {
   let strs = await read_lines(filepath);
   console.log('总共读取到'+strs.length+'行字符串');
 
-    //中文
-    // let en_trans = await trans_strs(strs, 'en', 'zh');
-    // let enfile =  path.resolve(filepath, '../xcstr-en-zh.strings');
-    // write_lines(en_trans,enfile);
+    let srcLan = 'en';
+    let dir =  path.resolve(filepath, '../');
+   // await trans_lines_to_file(strs, srcLan, 'kor', dir); //韩语
+   // await trans_lines_to_file(strs, srcLan, 'zh', dir); //中文
+    // await trans_lines_to_file(strs, srcLan, 'fra', dir); //法语
+    // await trans_lines_to_file(strs, srcLan, 'spa', dir); //西班牙语
+    // await trans_lines_to_file(strs, srcLan, 'de', dir); //德语
+    // await trans_lines_to_file(strs, srcLan, 'pt', dir); //葡语
+    // await trans_lines_to_file(strs, srcLan, 'jp', dir); //日语
+    // await trans_lines_to_file(strs, srcLan, 'ara', dir); //阿拉伯语
+    // await trans_lines_to_file(strs, srcLan, 'it', dir); //意大利语
+    // await trans_lines_to_file(strs, srcLan, 'ru', dir); //俄语
+    // await trans_lines_to_file(strs, srcLan, 'vie', dir); //越南语
+    // await trans_lines_to_file(strs, srcLan, 'th', dir); //泰语
+    // await trans_lines_to_file(strs, srcLan, 'nl', dir); //荷兰语
+    await trans_lines_to_file(strs, srcLan, 'dan', dir); //丹麦语
+}
 
-    //法语
-    let fre_trans = await trans_strs(strs, 'en', 'fra');
-    let frefile =  path.resolve(filepath, '../xcstr-en-fre.strings');
-    write_lines(fre_trans,frefile);
+async function trans_lines_to_file(lines, from, to, savedirectory) {
 
-    //西语
-    let es_trans = await trans_strs(strs, 'en', 'spa');
-    let esfile =  path.resolve(filepath, '../xcstr-en-es.strings');
-    write_lines(es_trans,esfile);
-
-    //德语
-    let de_trans = await trans_strs(strs, 'en', 'de');
-    let defile =  path.resolve(filepath, '../xcstr-en-de.strings');
-    write_lines(de_trans,defile);
-
-    //葡语
-    let pt_trans = await trans_strs(strs, 'en', 'pt');
-    let ptfile =  path.resolve(filepath, '../xcstr-en-pt.strings');
-    write_lines(pt_trans,ptfile);
-
-    //日语
-    let jp_trans = await trans_strs(strs, 'en', 'jp');
-    let jpfile =  path.resolve(filepath, '../xcstr-en-jp.strings');
-    write_lines(jp_trans,jpfile);
-
-    //韩语
-    let ko_trans = await trans_strs(strs, 'en', 'kor');
-    let kofile =  path.resolve(filepath, '../xcstr-en-ko.strings');
-    write_lines(ko_trans,kofile);
-
-    //阿拉伯语
-    let ar_trans = await trans_strs(strs, 'en', 'ara');
-    let arfile =  path.resolve(filepath, '../xcstr-en-ar.strings');
-    write_lines(ar_trans,arfile);
-
-    //意大利语
-    let it_trans = await trans_strs(strs, 'en', 'it');
-    let itfile =  path.resolve(filepath, '../xcstr-en-it.strings');
-    write_lines(it_trans,itfile); 
-
-    //俄语
-    let ru_trans = await trans_strs(strs, 'en', 'ru');
-    let rufile =  path.resolve(filepath, '../xcstr-en-ru.strings');
-    write_lines(ru_trans,rufile); 
-
-    //越南语
-    let vi_trans = await trans_strs(strs, 'en', 'vie');
-    let vifile =  path.resolve(filepath, '../xcstr-en-vi.strings');
-    write_lines(vi_trans,vifile); 
-
-    //泰语
-    let th_trans = await trans_strs(strs, 'en', 'th');
-    let thfile =  path.resolve(filepath, '../xcstr-en-th.strings');
-    write_lines(th_trans,thfile); 
-
-    //荷兰语
-    let nl_trans = await trans_strs(strs, 'en', 'nl');
-    let nlfile =  path.resolve(filepath, '../xcstr-en-nl.strings');
-    write_lines(nl_trans,nlfile); 
-  
-
+  let trans = await trans_strs(lines, from, to);
+  let file =  savedirectory + '/xcstr_' + from + '_' + to + '.strings';
+    write_lines(trans,file); 
 }
 
 async function trans_strs(strings, from, to) {
@@ -134,20 +92,29 @@ async function trans_strs(strings, from, to) {
   for(let i=0; i<strings.length; i++) {
     let s = strings[i];
     if(s.charAt(0) == '\"') {
-      let c = s.split("=")[0]; //对 "Hello" = "你好"; 这样数据做提取，提取 "="前的字符
-      c = c.trim();
-      c = c.substr(1,c.length-2); //去掉双引号
+      let splt = s.split("="); //对 "Hello" = "你好"; 这样数据做提取，提取 "="前的字符
+      let c0 = splt[0];
+      c0 = c0.trim();
+      c0 = c0.substr(1,c0.length-2); //去掉双引号
+      let c1 = c0;
+      if(splt.length > 0) {
+        c1 = splt[1];
+        c1 = c1.trim();
+        c1 = c1.substr(1,c1.length-3); //去掉双引号和后面的分号
+      }
 
-      let s0 = replace_formatted_string(c)
+      let ts_str = c0;
+
+      let s0 = replace_formatted_string(ts_str)
       let r = await trans(s0,from, to);
       r = JSON.parse(r)
       if(!r.error_code || r.error_code == 52000 ) //成功
        { 
           let trans = r.trans_result[0].dst;
-          if(s0 != c)
+          if(s0 != ts_str)
             trans = resume_formatted_string(trans);
 
-          let s1 = '\"' + c + '\" = \"' + trans + '\";';
+          let s1 = '\"' + ts_str + '\" = \"' + trans + '\";';
           newstrs[i] = s1;
           console.log(s1);
       }
