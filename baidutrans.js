@@ -182,3 +182,4 @@ function resume_formatted_string (str) {
 module.exports.dotranswork = dotranswork; 
 module.exports.read_lines = read_lines;
 module.exports.write_lines = write_lines;
+module.exports.trans = trans;

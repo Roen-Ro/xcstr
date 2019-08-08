@@ -11,7 +11,7 @@
             "request": "launch",
             "name": "xcode strings",
             "program": "${workspaceFolder}/main.js",
-            "args": ["-ts", "/Users/XXX/Desktop/doc_test/Localizable_zh_en.strings" ]
+            "args": ["-ts", "en","zh","hello world" ]
         }
     ]
 }

@@ -54,14 +54,26 @@ var cmd = inputPara[2];
     });
 }
 else if(cmd == '-ts') {
+  let query = inputPara[5];
+  let formLan = inputPara[3];
+  let toLan = inputPara[4];
+  baidutrans.trans(query,formLan,toLan).then( res => {
+
+    console.log(JSON.stringify( JSON.parse(res)));
+  }).catch(error => {
+    console.error(error.matches);
+  });
+
+}
+else if(cmd == '-tsf') {
   let filepath = inputPara[3];
   baidutrans.dotranswork(filepath);
 }
 else {
     console.log('available commands: ');
     console.log('-ze directory 查找directory .m .h .mm  文件中的中文，并替换成NSLocalizedString()，所有中文字符也会输出到localizedstring_zh_xcstr.strings');
-    console.log('-ts stringfile 调用翻译api，将strings文件的内容翻译成多语言, 每种翻译生成在不同的文件中 ');
-
+    console.log('-tsf stringfile 调用翻译api，将strings文件的内容翻译成多语言, 每种翻译生成在不同的文件中 ');
+    console.log('-ts formLan toLan content  调用翻译api，将content的内容由fromLan语言翻译成toLan语言, 并打印出翻译结果 ');
   //  handle_zh_en_strings_for_project('/Users/jiangwenbin/Desktop/doc_test/Localizable_zh_en.strings','/Users/nTT');
 }
 
