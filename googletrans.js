@@ -9,7 +9,7 @@
     /**
     * TODO(developer): Uncomment the following line before running the sample.
     */
-     const projectId = 'AIzaSyBFlhl_QCuh1i_fzIR_Olfh5gIh2nJYrGE';
+     const projectId = '';
   
     // Creates a client
     const translate = new Translate(projectId);
