@@ -14,6 +14,7 @@ var fs = require('fs');
 var basUtil = require('./basicUtil.js');
 var path = require('path');
 var baidutrans = require('./baidutrans.js');
+var googletrans = require('./googletrans.js');
 
 //提取出来的string
 var all_founds = [];
@@ -68,6 +69,9 @@ else if(cmd == '-ts') {
 else if(cmd == '-tsf') {
   let filepath = inputPara[3];
   baidutrans.dotranswork(filepath);
+}
+else if(cmd == '-googletrans'){
+  googletrans.startTrans();
 }
 else {
     console.log('available commands: ');

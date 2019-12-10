@@ -12,6 +12,7 @@
     ]
   },
   "dependencies": {
+    "@google-cloud/translate": "^5.1.1",
     "js-md5": "^0.7.3",
     "request": "^2.88.0"
   }

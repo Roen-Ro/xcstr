@@ -11,7 +11,7 @@
             "request": "launch",
             "name": "xcode strings",
             "program": "${workspaceFolder}/main.js",
-            "args": ["-ts", "en","zh","hello world" ]
+            "args": ["-googletrans", "en","zh","hello world" ]
         }
     ]
 }
